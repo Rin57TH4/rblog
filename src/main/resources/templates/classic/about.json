@@ -1,0 +1,10 @@
+{
+    "name": "classic",
+    "slogan": "Chủ đề cổ điển",
+    "version": "1.0",
+    "author": "landy",
+    "website": "http://blog.hanoidev.net",
+    "previews": [
+        "/theme/classic/dist/images/preview/1.png"
+    ]
+}

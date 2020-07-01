@@ -1,0 +1,10 @@
+{
+    "name": "default",
+    "slogan": "Chủ đề mặc định",
+    "version": "1.0",
+    "author": "landy",
+    "website": "http://blog.hanoidev.net",
+    "previews": [
+        "/theme/default/dist/images/preview/1.png"
+    ]
+}

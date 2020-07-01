@@ -1,0 +1,23 @@
+version: '3'
+volumes:
+  storage:
+      driver: local
+      driver_opts:
+        type: none
+        device: "/root/storage/"
+        o : bind
+
+
+services:
+  server:
+    container_name: rin-blog
+    image: rin-blog:1.0
+    environment:
+      TZ: Asia/Ho_Chi_Minh
+    ports:
+      - "8080:8080"
+    restart: always
+    command: --spring.profiles.active=mysql
+    volumes:
+      - storage:/blog-storage/
+
