@@ -13,6 +13,7 @@ import vn.rin.blog.common.EntityStatus;
 import vn.rin.blog.domain.data.AccountProfile;
 import vn.rin.blog.domain.data.BadgesCount;
 import vn.rin.blog.domain.data.UserVO;
+import vn.rin.blog.domain.entities.User;
 import vn.rin.blog.domain.entity.UserEntity;
 import vn.rin.blog.exception.BlogException;
 import vn.rin.blog.repositories.ShiroRoleRepo;
@@ -32,7 +33,7 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     @Autowired
-    private UserRepo userRepository;
+    private UserRepo userRepo;
     @Autowired
     private MessageService messageService;
 
@@ -59,11 +60,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<Long, UserVO> findMapByIds(Set<Long> ids) {
+    public Map<Long, UserVO> findMapByIds(Set<String> ids) {
         if (ids == null || ids.isEmpty()) {
             return Collections.emptyMap();
         }
-        List<UserEntity> list = userRepository.findAllById(ids);
+        List<User> list = userRepo.findAllById(ids);
         Map<Long, UserVO> ret = new HashMap<>();
 
         list.forEach(po -> ret.put(po.getId(), BeanMapUtils.copy(po)));
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public AccountProfile login(String username, String password) {
-        UserEntity po = userRepository.findByUsername(username);
+        User po = userRepo.findByUserName(username);
 
         if (null == po) {
             return null;
@@ -82,8 +83,8 @@ public class UserServiceImpl implements UserService {
 
         Assert.state(StringUtils.equals(po.getPassword(), password), "Sai mật khẩu");
 
-        po.setLastLogin(Calendar.getInstance().getTime());
-        userRepository.save(po);
+        po.setLatestLoginTime(new Date());
+        userRepo.save(po);
         AccountProfile u = BeanMapUtils.copyPassport(po);
 
         BadgesCount badgesCount = new BadgesCount();
@@ -95,12 +96,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public AccountProfile findProfile(Long id) {
-        UserEntity po = userRepository.findById(id).orElse(null);
+    public AccountProfile findProfile(String id) {
+        User po = userRepo.findById(id).orElse(null);
 
         Assert.notNull(po, "Tài khoản không tồn tại");
 
-        po.setLastLogin(Calendar.getInstance().getTime());
+        po.setLatestLoginTime(Calendar.getInstance().getTime());
 
         AccountProfile u = BeanMapUtils.copyPassport(po);
 
@@ -160,7 +161,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public AccountProfile updateEmail(long id, String email) {
+    public AccountProfile updateEmail(String id, String email) {
         UserEntity po = userRepository.findById(id).get();
 
         if (email.equals(po.getEmail())) {
@@ -178,7 +179,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO get(long userId) {
+    public UserVO get(String userId) {
         Optional<UserEntity> optional = userRepository.findById(userId);
         if (optional.isPresent()) {
             return BeanMapUtils.copy(optional.get());

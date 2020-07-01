@@ -3,6 +3,7 @@ package vn.rin.blog.utils;
 import org.springframework.beans.BeanUtils;
 import vn.rin.blog.common.Constants;
 import vn.rin.blog.domain.data.*;
+import vn.rin.blog.domain.entities.User;
 import vn.rin.blog.domain.entity.*;
 
 /**
@@ -20,12 +21,12 @@ public class BeanMapUtils {
         return ret;
     }
 
-    public static AccountProfile copyPassport(UserEntity po) {
+    public static AccountProfile copyPassport(User po) {
         AccountProfile passport = new AccountProfile(po.getId(), po.getUsername());
-        passport.setName(po.getName());
+        passport.setNickname(po.getNickname());
         passport.setEmail(po.getEmail());
-        passport.setAvatar(po.getAvatar());
-        passport.setLastLogin(po.getLastLogin());
+        passport.setAvatarURL(po.getAvatarURL());
+        passport.setLatestLoginTime(po.getLatestLoginTime());
         passport.setStatus(po.getStatus());
         return passport;
     }

@@ -17,10 +17,10 @@ public class AccountProfile implements Serializable {
     private static final long serialVersionUID = 1748764917028425871L;
     private String id;
     private String username;
-    private String avatar;
-    private String name;
+    private String avatarURL;
+    private String nickname;
     private String email;
-    private Date lastLogin;
+    private Date latestLoginTime;
     private int status;
 
     private BadgesCount badgesCount;

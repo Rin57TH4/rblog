@@ -65,7 +65,7 @@ public class AccountRealm extends AuthorizingRealm {
         }
 
         if (profile.getStatus() == Constants.STATUS_CLOSED) {
-            throw new LockedAccountException(profile.getName());
+            throw new LockedAccountException(profile.getUsername());
         }
 
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(profile, authenticationToken.getCredentials(), getName());

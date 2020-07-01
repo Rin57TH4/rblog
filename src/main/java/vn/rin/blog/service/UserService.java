@@ -18,15 +18,15 @@ public interface UserService {
 
     AccountProfile login(String username, String password);
 
-    AccountProfile findProfile(Long id);
+    AccountProfile findProfile(String id);
 
     UserVO register(UserVO user);
 
     AccountProfile update(UserVO user);
 
-    AccountProfile updateEmail(long id, String email);
+    AccountProfile updateEmail(String id, String email);
 
-    UserVO get(long userId);
+    UserVO get(String userId);
 
     UserVO getByUsername(String username);
 
